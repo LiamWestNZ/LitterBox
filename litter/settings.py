@@ -25,8 +25,8 @@ SECRET_KEY = '*m(=h1*qq_k)of39!50p4!b@wqa40!d6&nsoria+%h43wo0+78'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
+MAX_TWEET_LENGTH = 240
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'tweets',
 ]
 
@@ -55,7 +56,7 @@ ROOT_URLCONF = 'litter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+LOGIN_URL = '/login'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -119,3 +120,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+DEFAULT_RENDER_CLASSES =[
+    'rest_framework.renderers.JSONRenderer',
+]
+if DEBUG:
+    DEFAULT_RENDER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        'rest_framework.authentication.SessionAuthentication',
+        ],
+    "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDER_CLASSES
+    
+}
+
+TWEET_ACTION_OPTIONS = ['like','unlike','retweet']
