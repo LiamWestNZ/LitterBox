@@ -25,7 +25,7 @@ SECRET_KEY = '*m(=h1*qq_k)of39!50p4!b@wqa40!d6&nsoria+%h43wo0+78'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 MAX_TWEET_LENGTH = 240
 
 # Application definition
@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'tweets',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -121,6 +123,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static-root")
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
+
+DEFAULT_AUTHENTICATTION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication',
+    ]
 
 DEFAULT_RENDER_CLASSES =[
     'rest_framework.renderers.JSONRenderer',
@@ -129,11 +143,12 @@ if DEBUG:
     DEFAULT_RENDER_CLASSES += [
         'rest_framework.renderers.BrowsableAPIRenderer',
     ]
+    DEFAULT_AUTHENTICATTION_CLASSES += [
+        'litter.rest_api.dev.DevAuthentication'
+    ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        'rest_framework.authentication.SessionAuthentication',
-        ],
+    "DEFAULT_AUTHENTICATION_CLASSES": DEFAULT_AUTHENTICATTION_CLASSES,
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDER_CLASSES
     
 }
