@@ -19,25 +19,32 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
+from accounts.views import (
+    login_view,
+    registration_view,
+    logout_view,
+)
+
+
 from tweets.views import (
+    tweets_detail_view,
+    tweets_list_view,
     home_view,
-    tweet_detail_view,
-    tweet_list_view,
-    tweet_create_view,
-    tweet_delete_view,
-    tweet_action_view,
+
+    
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', home_view),
-    path('react/', TemplateView.as_view(template_name='react_via_django.html')),
-    path('create-tweet', tweet_create_view),
-    path('tweets/', tweet_list_view),
-    path('tweets/<int:tweet_id>', tweet_detail_view),
-    #path('api/tweets/action', tweet_action_view),
-    #path('api/tweets/<int:tweet_id>/delete', tweet_delete_view),
-    path('api/tweets/', include('tweets.urls'))
+    path('admin/', admin.site.urls),
+    path('global/', tweets_list_view),
+    path('login/', login_view),
+    path('register/', registration_view),
+    path('logout/', logout_view),
+    path('<int:tweet_id>', tweets_detail_view),
+    path('profile/', include('profiles.urls')),
+    path('api/tweets/', include('tweets.api.urls')),
+    path('api/profile/', include('profiles.api.urls')),
 
     
 ]
