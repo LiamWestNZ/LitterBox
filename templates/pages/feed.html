@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user_is_authenticated %}
+    <div id='LitterFeed-mainfeed'></div>
+{% else %}
+    <div id='LitterFeed'></div>
+{% endif %}
+{% endblock content %}

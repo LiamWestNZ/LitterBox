@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'tweets',
     'corsheaders',
+    'accounts',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -134,7 +136,7 @@ CORS_URLS_REGEX = r'^/api/.*$'
 
 DEFAULT_AUTHENTICATTION_CLASSES = [
     'rest_framework.authentication.SessionAuthentication',
-    ]
+]
 
 DEFAULT_RENDER_CLASSES =[
     'rest_framework.renderers.JSONRenderer',
@@ -149,7 +151,7 @@ if DEBUG:
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": DEFAULT_AUTHENTICATTION_CLASSES,
-    "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDER_CLASSES
+    "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDER_CLASSES,
     
 }
 
